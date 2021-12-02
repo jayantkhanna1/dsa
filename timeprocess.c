@@ -9,23 +9,19 @@ typedef struct node {
 
 nodetype * last = NULL;
 void addnode();
-void display();
 void check();
 int deletenode();
 int main()
 {
     int ch;
     while(1){
-        printf("enter 1 to add node at last; 2 to Update;3 to display;anything else terminate");
+        printf("enter 1 to add node at last; 2 to get timeslots;anything else terminate");
         scanf("%d",&ch);
         if(ch==1){
             addnode();
         }
         else if(ch==2){
             check();
-        }
-        else if(ch==3){
-            display();
         }
         else{
             break;
@@ -64,8 +60,8 @@ void check()
 	while(1){
 		flag++;
         temp->data=temp->data-10;
-        if(temp->data<0){
-            printf("Process %d ended in %d steps",temp->id,flag);
+        if(temp->data<=0){
+            printf("Process %d ended in %d steps\n",temp->id,flag);
             flag1=deletenode();
         }
         if(flag1==1){
@@ -83,35 +79,23 @@ int deletenode()
 	else {
 		do{
             if(temp->next==last){
-                if(temp->next->data<0){
+                if(temp->data<=0){
+                    last=NULL;
+                    free(temp);
+                    return 1;
+                }
+            }
+			else if(temp->next->data<=0){
                 position = temp->next;
                 temp->next = position->next;
                 free(position);
                 break;
             }
-            }
-			if(temp->next->data<0){
-                position = temp->next;
-                temp->next = position->next;
-                free(position);
-                break;
+            else{
+
             }
 			temp = temp->next;
 		} while (temp != last->next);
-        return 0;
-		
-	}
-}
-void display()
-{
-	if (last == NULL)
-		printf("L.L is empty\n");
-	else {
-		struct node* temp;
-		temp = last->next;
-		do{
-			printf("Data = %d\n", temp->data);
-			temp = temp->next;
-		}while (temp != last->next);
+        return 0;	
 	}
 }
