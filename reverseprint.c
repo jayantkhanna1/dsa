@@ -43,10 +43,9 @@ nodetype * addnode(nodetype *start,int n){
     return new;;
 }
 void display(nodetype *start){
-	nodetype *ptr=start;
-	if(ptr!=NULL){
+	if(start!=NULL){
 		display(start->next);
-		printf("%d ",ptr->data);
+		printf("%d ",start->data);
 	}
 	printf("\n"); 
 }
