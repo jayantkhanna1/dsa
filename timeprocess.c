@@ -58,13 +58,11 @@ void addnode()
 }
 void check()
 {
-    printf("hi");
     int flag=0,flag1=0;
 	struct node *temp, *position;
 	temp = last->next;
 	while(1){
 		flag++;
-        printf("%d",temp->data);
         temp->data=temp->data-10;
         if(temp->data<0){
             printf("Process %d ended in %d steps",temp->id,flag);
@@ -84,10 +82,19 @@ int deletenode()
 		return 1;
 	else {
 		do{
+            if(temp->next==last){
+                if(temp->next->data<0){
+                position = temp->next;
+                temp->next = position->next;
+                free(position);
+                break;
+            }
+            }
 			if(temp->next->data<0){
                 position = temp->next;
                 temp->next = position->next;
                 free(position);
+                break;
             }
 			temp = temp->next;
 		} while (temp != last->next);
