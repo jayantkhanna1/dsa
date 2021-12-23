@@ -1,7 +1,8 @@
+//Find element in a single linked list and delete it
+
 #include <stdio.h>
 #include <stdlib.h>
 typedef struct node{
-	struct node *prev;
 	int data;
 	struct node *next;
 }nodetype;
@@ -13,7 +14,7 @@ int main(){
 	nodetype *start=NULL,*current=NULL,*ptr,*new;
 	int ch;
 	while(1){
-		printf("enter 1 to add node at last; 2 to Update;3 to 			display;anything else terminate");
+		printf("enter 1 to add node at last; 2 to Update;3 to display;anything else terminate ");
 		scanf("%d",&ch);
 		if(ch==1){
 			if(start==NULL){
@@ -21,7 +22,6 @@ int main(){
 				printf("enter 1st data ");
 				scanf("%d",&start->data);
 				start->next=NULL;
-				start->prev=NULL;
 				current=start;
 			}
 			else{
@@ -29,7 +29,7 @@ int main(){
 				printf("enter next data ");
 				scanf("%d",&n);
 				current=addnode(current,n);
-			} 
+			}
 		}
 		else if(ch==2){
 			int key;
@@ -48,45 +48,46 @@ int main(){
 nodetype * addnode(nodetype *current,int n){
 	nodetype *new=(nodetype *)malloc(sizeof(nodetype));
 	new->data=n;
-	new->prev=current;
 	new->next=NULL;
 	current->next=new;
 	return new;
 }
 nodetype * check(nodetype * start,nodetype * current,int key){
-	nodetype * ptr=start,*temp=NULL,*tempret=current;
+	nodetype * ptr=start;
+	nodetype *temp=current,*temp2;;
 	int flag=0,flag1=0;
 	if(ptr==NULL){
 		printf("L.L is empty\n");
+	}
+	else if(ptr->data==key){
+		flag++;
+		*start=*start->next;
 	}
 	else{
 		while (ptr->next!=NULL){
 			if(ptr->next->data==key){
 				flag++;
-					if(ptr->next->next==NULL){
-						flag1=1;
-						tempret=ptr;
-						temp=ptr->next;
-						ptr->next->prev=NULL;
-						ptr->next=NULL;
-						free(temp);
-					}
-					else{
-						temp=ptr->next;
-						ptr->next=ptr->next->next;
-						ptr->next->prev=ptr;
-						free(temp);
-					}
-					break;
+				if(ptr->next->next==NULL){
+					flag1=1;
+					temp2=ptr->next;
+					ptr->next=NULL;
+					free(temp2);
 				}
-				ptr=ptr->next;
+				else{
+					temp2=ptr->next;
+					ptr->next=ptr->next->next;
+					free(temp2);
+				}
+			break;
+			}
+			ptr=ptr->next;
 		}
 	}
 	if(flag==0){
 		printf("no such value found\n");
 	}
 	if(flag1==1){
-		return tempret;
+		return temp;
 	}
 	if(flag1==0){
 		return current;
